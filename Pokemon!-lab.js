@@ -1,54 +1,100 @@
-let deckOfCards = [];
+const deckOfCards = [];
+const newPokemon = []
 
-
-let Pokemon = function(name, damage){
+const Pokemon = function(name, damage){
 	this.name = name
 	this.damage = damage
 }
 
 
-let bulbasaur = new Pokemon("Bulbasaur", 60);
+const createPokemon = (pokemonNameString, pokemonDamage, deckToAddPokemon)=>{
+	let newPokemonCreated = new Pokemon(pokemonNameString, pokemonDamage)
+	deckToAddPokemon.push(newPokemonCreated)
+}
+
+createPokemon("Snorlax", 100, newPokemon);
+createPokemon("Mewtwo", 75, newPokemon);
+createPokemon("Eevee", 45, newPokemon);
+createPokemon("Ditto", 0, newPokemon);
+createPokemon("Charizard", 120, newPokemon);
+createPokemon("Gengar", 90, newPokemon);
+createPokemon("Dragonite", 120, newPokemon);
+createPokemon("Raichu", 55, newPokemon);
+createPokemon("Blastoise", 90, newPokemon);
+createPokemon("Blaziken", 75,newPokemon);
+createPokemon("Cloyster", 80,newPokemon);
+createPokemon("Cloyster", 85,newPokemon);
+createPokemon("Combee", 70,newPokemon);
+createPokemon("Conkeldurr",85,newPokemon);
+createPokemon("Cutiefly", 50,newPokemon);
+createPokemon("Cyndaquil", 45,newPokemon);
+createPokemon("Dartrix", 55,newPokemon);
+createPokemon("Delcatty", 60,newPokemon);
+createPokemon("Dodrio", 80,newPokemon);
+createPokemon("Drapion", 55, newPokemon);
+createPokemon("Dratini", 45, newPokemon); 
+createPokemon("Drifblim", 70, newPokemon); 
+createPokemon("Ekans", 60, newPokemon); 
+createPokemon("Electabuzz", 70, newPokemon); 
+createPokemon("Exeggutor", 80, newPokemon);  
+createPokemon("Excadrill", 75, newPokemon); 
+createPokemon("Feraligatr", 120, newPokemon); 
+createPokemon("Flaaffy", 55, newPokemon); 
+createPokemon("Floette", 60, newPokemon); 
+createPokemon("Foongus", 55, newPokemon); 
+createPokemon("Golduck", 80, newPokemon); 
+createPokemon("Gurdurr", 75, newPokemon); 
+createPokemon("Ho-Oh", 150, newPokemon); 
+
+
+
+
+
+
+
+
+const bulbasaur = new Pokemon("Bulbasaur", 60);
 deckOfCards.push(bulbasaur);
-let caterpie = new Pokemon("Caterpie" , 40);
+const caterpie = new Pokemon("Caterpie" , 40);
 deckOfCards.push(caterpie);
-let charmander = new Pokemon("Charmander" , 60);
+const charmander = new Pokemon("Charmander" , 60);
 deckOfCards.push(charmander);
-let clefairy = new Pokemon("Clefairy" , 60);
+const clefairy = new Pokemon("Clefairy" , 60);
 deckOfCards.push(clefairy);
-let jigglypuff = new Pokemon("Jigglypuff", 60);
+const jigglypuff = new Pokemon("Jigglypuff", 60);
 deckOfCards.push(jigglypuff);
-let mankey = new Pokemon("Mankey", 30);
+const mankey = new Pokemon("Mankey", 30);
 deckOfCards.push(mankey);
-let meowth = new Pokemon("Meowth", 60);
+const meowth = new Pokemon("Meowth", 60);
 deckOfCards.push(meowth);
-let nidoranFemale = new	Pokemon("Nidoran - female" , 60);
+const nidoranFemale = new	Pokemon("Nidoran - female" , 60);
 deckOfCards.push(nidoranFemale);
-let nidoranMale = new Pokemon("NidoranMale" , 50);
+const nidoranMale = new Pokemon("NidoranMale" , 50);
 deckOfCards.push(nidoranMale);
-let oddish = new Pokemon("Oddish", 40);
+const oddish = new Pokemon("Oddish", 40);
 deckOfCards.push(oddish);
-let pidgey = new Pokemon("Pidgey", 50);
+const pidgey = new Pokemon("Pidgey", 50);
 deckOfCards.push(pidgey);
-let pikachu = new Pokemon("Pikachu", 50);
+const pikachu = new Pokemon("Pikachu", 50);
 deckOfCards.push(pikachu);
-let poliwag = new Pokemon("Poliwag", 50);
+const poliwag = new Pokemon("Poliwag", 50);
 deckOfCards.push(poliwag)
-let psyduck = new Pokemon("Psyduck", 60);
+const psyduck = new Pokemon("Psyduck", 60);
 deckOfCards.push(psyduck);
-let rattata = new Pokemon("Rattata", 30);
+const rattata = new Pokemon("Rattata", 30);
 deckOfCards.push(rattata);
-let squirtle = new Pokemon("Squirtle" , 60);
+const squirtle = new Pokemon("Squirtle" , 60);
 deckOfCards.push(squirtle);
-let vulpix = new Pokemon("Vulpix", 50);
+const vulpix = new Pokemon("Vulpix", 50);
 deckOfCards.push(vulpix);
-let weedle = new Pokemon("Weedle" , 40);
+const weedle = new Pokemon("Weedle" , 40);
 deckOfCards.push(weedle)
 
 
 
 
-let pokemonGame = {
-	cards : deckOfCards,
+const pokemonGame = {
+	cards : newPokemon,
 	"cards played" : [],
 	"cards left" : [],
 	"track points" : { playerPoints : 0, computerPoints : 0},
@@ -56,7 +102,8 @@ let pokemonGame = {
 }
 
 
-class Game {
+
+class Player {
 	constructor(name){
 		this.name = name
 		this.statsAndRoundsWon = 0
@@ -67,70 +114,56 @@ class Game {
 	}
 	pickRandomCard(){ 
 		if(this.totalCardsDealtAllGame.length == 9){return}
-			let randomNumber1 = Math.floor(Math.random()*(deckOfCards.length - 1))
+			let randomNumber1 = Math.floor(Math.random()*(pokemonGame.cards.length - 1))
 			if(randomNumber1 == -1){
 				randomNumber1++
 			}
-			this.cards.push(deckOfCards[randomNumber1])
-			this.totalCardsDealtAllGame.push(deckOfCards[randomNumber1])
-			deckOfCards.splice(randomNumber1, 1)
+			this.cards.push(pokemonGame.cards[randomNumber1])
+			this.totalCardsDealtAllGame.push(pokemonGame.cards[randomNumber1])
+			pokemonGame.cards.splice(randomNumber1, 1)
 	
-			let randomNumber2 = Math.floor(Math.random()*(deckOfCards.length - 1))
+			let randomNumber2 = Math.floor(Math.random()*(pokemonGame.cards.length - 1))
 			if(randomNumber2 == -1){
 				randomNumber2++
 			}
-			this.cards.push(deckOfCards[randomNumber2])
-			this.totalCardsDealtAllGame.push(deckOfCards[randomNumber2]) 
-			deckOfCards.splice(randomNumber2, 1)
+			this.cards.push(pokemonGame.cards[randomNumber2])
+			this.totalCardsDealtAllGame.push(pokemonGame.cards[randomNumber2]) 
+			pokemonGame.cards.splice(randomNumber2, 1)
 	
-			let randomNumber3 = Math.floor(Math.random()*(deckOfCards.length - 1))
+			let randomNumber3 = Math.floor(Math.random()*(pokemonGame.cards.length - 1))
 			if(randomNumber3 == -1){
 				randomNumber3++
 			}
-			this.cards.push(deckOfCards[randomNumber3])
-			this.totalCardsDealtAllGame.push(deckOfCards[randomNumber3])
-			deckOfCards.splice(randomNumber3, 1)
+			this.cards.push(pokemonGame.cards[randomNumber3])
+			this.totalCardsDealtAllGame.push(pokemonGame.cards[randomNumber3])
+			pokemonGame.cards.splice(randomNumber3, 1)
 	}
 }
 
 
 
-let player = new Game("player")
-let computer = new Game("computer")
+let player = new Player("player")
+let computer = new Player("computer")
 
+const findTheMostDamage = function(thisPlayer){
 
-let findTheMostDamagePlayer = function(){
+	if(thisPlayer.cards.length == 3){
 
-	if(player.cards.length == 3){
+		for(let i = 0; i < thisPlayer.cards.length; i++){
+			for(let j = 0; j < thisPlayer.cards.length; j++){
+				if(thisPlayer.cards[i] !== thisPlayer.cards[j] && thisPlayer.cards[j].damage >= thisPlayer.cards[i].damage){
+						thisPlayer.bestCardDamage = thisPlayer.cards[j].damage
+						thisPlayer.bestCardPokemonName = thisPlayer.cards[j].name
 
-		for(let i = 0; i < player.cards.length; i++){
-			for(let j = 0; j < player.cards.length; j++){
-				if(player.cards[i] !== player.cards[j] && player.cards[j].damage > player.cards[i].damage){
-						player.bestCardDamage = player.cards[j].damage
-						player.bestCardPokemonName = player.cards[j].name
-				}
-			}
-		}
-		
-	}
-}
-
-let findTheMostDamageComputer = function(){
-
-	if(computer.cards.length == 3){
-
-		for(let i = 0; i < computer.cards.length; i++){
-			for(let j = 0; j < computer.cards.length; j++){
-				if(computer.cards[i] !== computer.cards[j] && computer.cards[j].damage >= computer.cards[i].damage){
-						computer.bestCardDamage = computer.cards[j].damage
-						computer.bestCardPokemonName = computer.cards[j].name
+						//return { name: , dmg: }
+						//return to a variable that is expecting an value, like this object (IE x = FUNCTION), (IE pokemonGame["cards left"].push(FUNCTION))
 				}
 			}
 		}			
 	}
 }
 
-let cardsUsed = function(){
+const cardsUsed = function(){
 		for(let i = 0; i <player.cards.length; i++){
 		pokemonGame["cards played"].push(player.cards[i])
 	}
@@ -141,16 +174,16 @@ let cardsUsed = function(){
 }
 
 
-let runThePokemonGame = function(){
+const runThePokemonGame = function(){
 
 	while(true){
 		player.pickRandomCard();
 		computer.pickRandomCard();
 
-		pokemonGame["cards left"].push(deckOfCards)
+		pokemonGame["cards left"].push(pokemonGame.cards)
 
-		findTheMostDamageComputer();
-		findTheMostDamagePlayer();
+		findTheMostDamage(computer);
+		findTheMostDamage(player);
 
 			if(pokemonGame.turns == 3){
 					if(player.statsAndRoundsWon > computer.statsAndRoundsWon){
@@ -212,7 +245,6 @@ let runThePokemonGame = function(){
 
 
 runThePokemonGame();
-
 
 
 
