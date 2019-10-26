@@ -94,7 +94,7 @@ deckOfCards.push(weedle)
 
 
 const pokemonGame = {
-	cards : newPokemon,
+	cards : deckOfCards,
 	"cards played" : [],
 	"cards left" : [],
 	"track points" : { playerPoints : 0, computerPoints : 0},
@@ -173,7 +173,9 @@ const cardsUsed = function(){
 	}
 }
 
-
+const POKEMON= function(){
+	console.log("                                  ,'\\					  \n    _.----.        ____         ,'  _\\  ___    ___     ____\\  \n_,-'       `.     |    |  /`.   \\,-'   |   \\  /   |   |    \\  |`.\\  \n\\      __   \\    '-.  | /   `.  ___    |    \\/    |   '-.   \\ |  |  \n \\    \\ \\   |  __  |  |/    ,','_  `.  |          | __  |    \\|  |  \n  \\    \\/   /,' _`.|      ,' / / / /   |          ,' _`.|     |  |  \n   \\     ,-'/  / \\ \\    ,'   | \\/ / ,`.|         /  / \\ \\  |     |  \n    \\    \\ |   \\_/  |   `-.  \\    `'  /|  |    ||   \\_/  | |\     |  \n     \\    \\ \\      /       `-.`.___,-' |  |\\  /| \\      /  | |   |  \n      \\    \\ `.__,'|  |`-._    `|      |__| \\/ |  `.__,'|  | |   |  \n       \\_.-'       |__|    `-._ |              '-.|     '-.| |   |  \n                                `'                           '-._|  ")
+}
 const runThePokemonGame = function(){
 
 	while(true){
@@ -189,12 +191,15 @@ const runThePokemonGame = function(){
 					if(player.statsAndRoundsWon > computer.statsAndRoundsWon){
 						console.log("----------------👾GAME OVER👾-----------------")
 						console.log(`The Player WINS!!!  Player : ${player.statsAndRoundsWon}, Computer : ${computer.statsAndRoundsWon}`)
+						POKEMON();
 					}else if(computer.statsAndRoundsWon > player.statsAndRoundsWon){
 						console.log("----------------👾GAME OVER👾-----------------")
 						console.log(`The Computer WINS!!! Player : ${player.statsAndRoundsWon}, Computer : ${computer.statsAndRoundsWon}` )
+						POKEMON();
 					}else if (player.statsAndRoundsWon == computer.statsAndRoundsWon){
 						console.log("----------------👾GAME OVER👾-----------------")
 						console.log(`We have a TIE NO ONE WINS!!!! Player : ${player.statsAndRoundsWon}, Computer : ${computer.statsAndRoundsWon}`)
+						POKEMON();
 					}
 				return
 			}else if(player.bestCardDamage > computer.bestCardDamage){
@@ -245,12 +250,6 @@ const runThePokemonGame = function(){
 
 
 runThePokemonGame();
-
-
-
-
-
-
 
 
 
