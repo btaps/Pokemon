@@ -90,8 +90,11 @@ deckOfCards.push(vulpix);
 const weedle = new Pokemon("Weedle" , 40);
 deckOfCards.push(weedle)
 
-
-
+// for(let i = 0; i <newPokemon.length; i++){
+// 	if(newPokemon[i].name == "Charizard"){
+// 		console.log(i)
+// 	}
+// }
 
 const pokemonGame = {
 	cards : deckOfCards,
@@ -111,6 +114,9 @@ class Player {
 		this.totalCardsDealtAllGame = []
 		this.bestCardDamage = 0
 		this.bestCardPokemonName = ""
+		this.bestPokemon = null
+		this.cardsUsed = []
+		this.pointsWithinOneRound = 0
 	}
 	pickRandomCard(){ 
 		if(this.totalCardsDealtAllGame.length == 9){return}
@@ -147,20 +153,107 @@ let computer = new Player("computer")
 
 const findTheMostDamage = function(thisPlayer){
 
-	if(thisPlayer.cards.length == 3){
+
 
 		for(let i = 0; i < thisPlayer.cards.length; i++){
 			for(let j = 0; j < thisPlayer.cards.length; j++){
 				if(thisPlayer.cards[i] !== thisPlayer.cards[j] && thisPlayer.cards[j].damage >= thisPlayer.cards[i].damage){
+						thisPlayer.bestPokemon = thisPlayer.cards[j]
+						
 						thisPlayer.bestCardDamage = thisPlayer.cards[j].damage
 						thisPlayer.bestCardPokemonName = thisPlayer.cards[j].name
 
-						//return { name: , dmg: }
-						//return to a variable that is expecting an value, like this object (IE x = FUNCTION), (IE pokemonGame["cards left"].push(FUNCTION))
+				} else if (thisPlayer.cards.length == 1){
+						thisPlayer.bestPokemon = thisPlayer.cards[j]
+						thisPlayer.bestCardDamage = thisPlayer.cards[j].damage
+						thisPlayer.bestCardPokemonName = thisPlayer.cards[j].name
+						
 				}
 			}
-		}			
+		}	
+
 	}
+
+
+const compareCards = ()=>{
+
+	console.log(`${computer.name} was dealt these cards`)
+	console.log(computer.cards)
+	console.log(`${player.name} was dealt these cards`)
+	console.log(player.cards)
+
+	while(player.cards.length>0){
+		findTheMostDamage(player);
+		findTheMostDamage(computer);
+
+		computer.cardsUsed.push(computer.bestPokemon)
+		player.cardsUsed.push(player.bestPokemon)
+
+		console.log(`${computer.name}'s best card is`)
+		console.log(computer.bestPokemon)
+		console.log('players best pokemon is')
+		console.log(player.bestPokemon)
+
+		if(computer.bestPokemon.damage> player.bestPokemon.damage){
+			computer.pointsWithinOneRound++
+		}else if(player.bestPokemon.damage > computer.bestPokemon.damage){
+			player.pointsWithinOneRound++
+		}else if(player.bestPokemon.damage == computer.bestPokemon.damage){
+			console.log(`both computer and player's best cards damge are the same, no points!!`)
+		}
+		console.log(`player points : ${player.pointsWithinOneRound}`)
+		console.log(`computer points : ${computer.pointsWithinOneRound}`)
+		/* condition who wins this comparison*/
+		//log who wins and all that jazz
+
+
+		for (let i=0;i<computer.cards.length; i++){
+			if(computer.bestPokemon == computer.cards[i]){
+				pokemonGame["cards played"].push(computer.cards[i])
+				computer.cards.splice(i,1)
+				}
+			}
+		for (let i=0;i<player.cards.length; i++){
+			if(player.bestPokemon == player.cards[i]){
+				pokemonGame["cards played"].push(player.cards[i])
+				player.cards.splice(i,1)
+				}
+			}
+
+		//this should take out the best card out of current hand
+		computer.bestPokemon = null
+		player.bestPokemon = null
+
+
+
+		// end this comparison
+
+	// takes most dmg and splice it out of hand
+	//use MostDmg() again and repeat untill last card.
+ 
+	}
+
+	player.cards = []
+	computer.cards = []
+}
+
+const WhoWon = ()=>{
+	if(player.cards.length == 0){
+		if(player.pointsWithinOneRound>computer.pointsWithinOneRound){
+			player.statsAndRoundsWon++
+			console.log("player takes this one <<<<<<<<👾>>>>>>>>")
+			pokemonGame["track points"].playerPoints++
+		}else if(computer.pointsWithinOneRound> player.pointsWithinOneRound){
+			computer.statsAndRoundsWon++
+			console.log("computer takes this one <<<<<<<👾>>>>>>")
+			pokemonGame["track points"].computerPoints++
+		}else if (player.pointsWithinOneRound == computer.pointsWithinOneRound){
+			console.log("Its a Tie <<<<<<<👾>>>>>>>>")
+		}
+	}
+	pokemonGame.turns++
+	computer.pointsWithinOneRound = 0
+	player.pointsWithinOneRound = 0
 }
 
 const cardsUsed = function(){
@@ -176,6 +269,7 @@ const cardsUsed = function(){
 const POKEMON= function(){
 	console.log("                                  ,'\\					  \n    _.----.        ____         ,'  _\\  ___    ___     ____  \n_,-'       `.     |    |  /`.   \\,-'   |   \\  /   |   |    \\  |`.  \n\\      __   \\    '-.  | /   `.  ___    |    \\/    |   '-.   \\ |  |  \n \\    \\ \\   |  __  |  |/    ,','_  `.  |          | __  |    \\|  |  \n  \\    \\/   /,' _`.|      ,' / / / /   |          ,' _`.|     |  |  \n   \\     ,-'/  / \\ \\    ,'   | \\/ / ,`.|         /  / \\ \\  |     |  \n    \\    \\ |   \\_/  |   `-.  \\    `'  /|  |    ||   \\_/  | |\     |  \n     \\    \\ \\      /       `-.`.___,-' |  |\\  /| \\      /  | |   |  \n      \\    \\ `.__,'|  |`-._    `|      |__| \\/ |  `.__,'|  | |   |  \n       \\_.-'       |__|    `-._ |              '-.|     '-.| |   |  \n                                `'                           '-._|  ")
 }
+
 const runThePokemonGame = function(){
 
 	while(true){
@@ -184,8 +278,8 @@ const runThePokemonGame = function(){
 
 		pokemonGame["cards left"].push(pokemonGame.cards)
 
-		findTheMostDamage(computer);
-		findTheMostDamage(player);
+		// findTheMostDamage(computer);
+		// findTheMostDamage(player);
 
 			if(pokemonGame.turns == 3){
 					if(player.statsAndRoundsWon > computer.statsAndRoundsWon){
@@ -202,55 +296,62 @@ const runThePokemonGame = function(){
 						POKEMON();
 					}
 				return
-			}else if(player.bestCardDamage > computer.bestCardDamage){
-				player.statsAndRoundsWon++
-				pokemonGame["track points"].playerPoints++
-				cardsUsed();
-				
-				console.log("----------------👾NEW GAME👾------------------")
-				console.log(`The player is delt 3 cards in his hand: ${player.cards[0].name} --> Damage: ${player.cards[0].damage}, ${player.cards[1].name} --> Damage: ${player.cards[1].damage}, ${player.cards[2].name} --> Damage: ${player.cards[2].damage}`)
-				console.log(`The computer is delt 3 cards in his hand: ${computer.cards[0].name} --> Damage: ${computer.cards[0].damage}, ${computer.cards[1].name} --> Damage: ${computer.cards[1].damage}, ${computer.cards[2].name} --> Damage: ${computer.cards[2].damage}`)
-				console.log(`👾The player has chosen ${player.bestCardPokemonName} and the computer picked ${computer.bestCardPokemonName}👾`)
-				console.log(`${player.bestCardPokemonName} damage: ${player.bestCardDamage}, beats ${computer.bestCardPokemonName} damage: ${computer.bestCardDamage}`)
-				console.log(` Player : ${player.statsAndRoundsWon}, Computer : ${computer.statsAndRoundsWon}`)
-	
-				player.cards = []
-				computer.cards = []
-			}else if(computer.bestCardDamage > player.bestCardDamage){
-				computer.statsAndRoundsWon++
-				pokemonGame["track points"].computerPoints++
-				cardsUsed();
-				
-				console.log("----------------👾NEW GAME👾------------------")
-				console.log(`The player is delt 3 cards in his hand: ${player.cards[0].name} --> Damage: ${player.cards[0].damage}, ${player.cards[1].name} --> Damage: ${player.cards[1].damage}, ${player.cards[2].name} --> Damage: ${player.cards[2].damage}`)
-				console.log(`The computer is delt 3 cards in his hand: ${computer.cards[0].name} --> Damage: ${computer.cards[0].damage}, ${computer.cards[1].name} --> Damage: ${computer.cards[1].damage}, ${computer.cards[2].name} --> Damage: ${computer.cards[2].damage}`)
-				console.log(`👾The player has chosen ${player.bestCardPokemonName} and the computer picked ${computer.bestCardPokemonName}👾`)
-				console.log(`${computer.bestCardPokemonName} damage: ${computer.bestCardDamage}, beats ${player.bestCardPokemonName} damage: ${player.bestCardDamage}`)
-				console.log(` Player : ${player.statsAndRoundsWon}, Computer : ${computer.statsAndRoundsWon}`)
-				
-				player.cards = []
-				computer.cards = []
-			}else{
-				cardsUsed();
-				
-				console.log("----------------👾NEW GAME👾------------------")
-				console.log(`The player is delt 3 cards in his hand: ${player.cards[0].name} --> Damage: ${player.cards[0].damage}, ${player.cards[1].name} --> Damage: ${player.cards[1].damage}, ${player.cards[2].name} --> Damage: ${player.cards[2].damage}`)
-				console.log(`The computer is delt 3 cards in his hand: ${computer.cards[0].name} --> Damage: ${computer.cards[0].damage}, ${computer.cards[1].name} --> Damage: ${computer.cards[1].damage}, ${computer.cards[2].name} --> Damage: ${computer.cards[2].damage}`)
-				console.log(`The player's best card is ${player.bestCardPokemonName} with ${player.bestCardDamage} damage`)
-				console.log(`The computer's best card is ${computer.bestCardPokemonName} with ${computer.bestCardDamage} damage`)
-				console.log("👾This round is a tie👾")
-				console.log(` Player : ${player.statsAndRoundsWon}, Computer : ${computer.statsAndRoundsWon}`)
-				
-				player.cards = []
-				computer.cards = []
 			}
-		pokemonGame.turns++
+			console.log("----------------👾NEW ROUND👾------------------")
+			compareCards();
+			WhoWon();
+			console.log("----------------👾ROUND OVER👾------------------")
+
+			
+
+			// else if(player.bestCardDamage > computer.bestCardDamage){
+			// 	player.statsAndRoundsWon++
+			// 	pokemonGame["track points"].playerPoints++
+			// 	cardsUsed();
+				
+			// 	console.log("----------------👾NEW GAME👾------------------")
+			// 	console.log(`The player is delt 3 cards in his hand: ${player.cards[0].name} --> Damage: ${player.cards[0].damage}, ${player.cards[1].name} --> Damage: ${player.cards[1].damage}, ${player.cards[2].name} --> Damage: ${player.cards[2].damage}`)
+			// 	console.log(`The computer is delt 3 cards in his hand: ${computer.cards[0].name} --> Damage: ${computer.cards[0].damage}, ${computer.cards[1].name} --> Damage: ${computer.cards[1].damage}, ${computer.cards[2].name} --> Damage: ${computer.cards[2].damage}`)
+			// 	console.log(`👾The player has chosen ${player.bestCardPokemonName} and the computer picked ${computer.bestCardPokemonName}👾`)
+			// 	console.log(`${player.bestCardPokemonName} damage: ${player.bestCardDamage}, beats ${computer.bestCardPokemonName} damage: ${computer.bestCardDamage}`)
+			// 	console.log(` Player : ${player.statsAndRoundsWon}, Computer : ${computer.statsAndRoundsWon}`)
+		
+			// 	player.cards = []
+			// 	computer.cards = []
+			// }else if(computer.bestCardDamage > player.bestCardDamage){
+			// 	computer.statsAndRoundsWon++
+			// 	pokemonGame["track points"].computerPoints++
+			// 	cardsUsed();
+				
+			// 	console.log("----------------👾NEW GAME👾------------------")
+			// 	console.log(`The player is delt 3 cards in his hand: ${player.cards[0].name} --> Damage: ${player.cards[0].damage}, ${player.cards[1].name} --> Damage: ${player.cards[1].damage}, ${player.cards[2].name} --> Damage: ${player.cards[2].damage}`)
+			// 	console.log(`The computer is delt 3 cards in his hand: ${computer.cards[0].name} --> Damage: ${computer.cards[0].damage}, ${computer.cards[1].name} --> Damage: ${computer.cards[1].damage}, ${computer.cards[2].name} --> Damage: ${computer.cards[2].damage}`)
+			// 	console.log(`👾The player has chosen ${player.bestCardPokemonName} and the computer picked ${computer.bestCardPokemonName}👾`)
+			// 	console.log(`${computer.bestCardPokemonName} damage: ${computer.bestCardDamage}, beats ${player.bestCardPokemonName} damage: ${player.bestCardDamage}`)
+			// 	console.log(` Player : ${player.statsAndRoundsWon}, Computer : ${computer.statsAndRoundsWon}`)
+			
+			// 	player.cards = []
+			// 	computer.cards = []
+			// }else{
+			// 	cardsUsed();
+				
+			// 	console.log("----------------👾NEW GAME👾------------------")
+			// 	console.log(`The player is delt 3 cards in his hand: ${player.cards[0].name} --> Damage: ${player.cards[0].damage}, ${player.cards[1].name} --> Damage: ${player.cards[1].damage}, ${player.cards[2].name} --> Damage: ${player.cards[2].damage}`)
+			// 	console.log(`The computer is delt 3 cards in his hand: ${computer.cards[0].name} --> Damage: ${computer.cards[0].damage}, ${computer.cards[1].name} --> Damage: ${computer.cards[1].damage}, ${computer.cards[2].name} --> Damage: ${computer.cards[2].damage}`)
+			// 	console.log(`The player's best card is ${player.bestCardPokemonName} with ${player.bestCardDamage} damage`)
+			// 	console.log(`The computer's best card is ${computer.bestCardPokemonName} with ${computer.bestCardDamage} damage`)
+			// 	console.log("👾This round is a tie👾")
+			// 	console.log(` Player : ${player.statsAndRoundsWon}, Computer : ${computer.statsAndRoundsWon}`)
+			
+			// 	player.cards = []
+			// 	computer.cards = []
+			// }
 	}
+
 }
 
 
 runThePokemonGame();
-
 
 
 
